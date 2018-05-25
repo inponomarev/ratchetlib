@@ -1,6 +1,6 @@
+package ru.curs.ratcheting
 boolean compareWarnings(before, after) {
     boolean result = true
-    before.forEach()
     before.forEach { module, info ->
         info.forEach { checker, warnings ->
             if (after[module][checker] > warnings) {
@@ -11,5 +11,7 @@ boolean compareWarnings(before, after) {
     }
     return result
 }
+
+return this
 
 
