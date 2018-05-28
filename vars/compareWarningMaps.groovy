@@ -2,6 +2,7 @@ def call(Map before, Map after) {
     echo "${before.size()}"
     boolean result = true
     before.forEach { module, info ->
+        echo "ANALYZING ${module}, ${info.size()} steps"
         info.forEach { checker, warnings ->
             def msg
             def newWarnings = after[module][checker]
