@@ -14,7 +14,7 @@ def call(Map before, Map after) {
             msg <<= "${module}.${checker}: ${warnings}->${after[module][checker]}"
         }
     }
-    echo msg
+    echo "${msg}"
     if (result){
         echo "Ratcheting: no new issues found"
     } else {
