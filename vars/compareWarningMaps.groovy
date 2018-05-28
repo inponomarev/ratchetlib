@@ -1,21 +1,20 @@
 def call(Map before, Map after) {
-    echo "${before.size()}"
     boolean result = true
+    def msg = ''
     before.each { module, info ->
-        echo "ANALYZING ${module}, ${info.size()} steps"
         info.each { checker, warnings ->
-            def msg
             def newWarnings = after[module][checker]
             if (newWarnings > warnings) {
-                msg = "+ "
+                msg <<= "\n+ "
                 result = false
             } else if (newWarnings < warnings) {
-                msg = "- "
+                msg <<= "\n- "
             } else
-                msg = "= "
-            echo "$msg ${module}.${checker}: ${warnings}->${after[module][checker]}"
+                msg <<= "\n= "
+            msg <<= "${module}.${checker}: ${warnings}->${after[module][checker]}"
         }
     }
+    echo msg
     if (result){
         echo "Ratcheting: no new issues found"
     } else {
