@@ -1,4 +1,5 @@
 def call(Map before, Map after) {
+    echo before.size()
     boolean result = true
     before.forEach { module, info ->
         info.forEach { checker, warnings ->
