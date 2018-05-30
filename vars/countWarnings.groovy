@@ -1,14 +1,14 @@
 def call(List modules){
     def warningsMap = [:]
     for (module in modules){
-        def text = new File(module + "/target/checkstyle-result.xml").text
+
+        def text = new File("${env.WORKSPACE}/${module}/target/checkstyle-result.xml").text
         def checkstyle = new XmlSlurper().parseText(text)
         def csCount = checkstyle.file.error.size()
 
-
-        text = new File(module + "/target/findbugsXml.xml").text
+        text = new File("${env.WORKSPACE}/${module}/target/findbugsXml.xml").text
         def bugCollection = new XmlSlurper().parseText(text)
-        def fbCount =a bugCollection.BugInstance.size()
+        def fbCount = bugCollection.BugInstance.size()
 
         warningsMap.put(module, [checkstyle: csCount, findbugs: fbCount])
     }
