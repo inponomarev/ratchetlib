@@ -1,4 +1,4 @@
-def call(List modules){
+def call(modules = ['.']){
     def warningsMap = [:]
     for (module in modules){
 
