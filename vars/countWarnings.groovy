@@ -1,16 +1,23 @@
-def call(modules = ['.']){
+def call(modules = []) {
     def warningsMap = [:]
-    for (module in modules){
-
-        def text = new File("${env.WORKSPACE}/${module}/target/checkstyle-result.xml").text
-        def checkstyle = new XmlSlurper().parseText(text)
-        def csCount = checkstyle.file.error.size()
-
-        text = new File("${env.WORKSPACE}/${module}/target/spotbugsXml.xml").text
-        def bugCollection = new XmlSlurper().parseText(text)
-        def fbCount = bugCollection.BugInstance.size()
-
-        warningsMap.put(module, [checkstyle: csCount, findbugs: fbCount])
+    if (modules) {
+        modules.each { module ->
+            warningsMap.put(module, countModule("${env.WORKSPACE}/${module}"))
+        }
+    } else {
+        warningsMap.put("project", countModule("${env.WORKSPACE}"))
     }
-    return warningsMap
+    warningsMap
+}
+
+private Map countModule(prefix) {
+    def text = new File("${prefix}/target/checkstyle-result.xml").text
+    def checkstyle = new XmlSlurper().parseText(text)
+    def csCount = checkstyle.file.error.size()
+
+    text = new File("${prefix}/target/spotbugsXml.xml").text
+    def bugCollection = new XmlSlurper().parseText(text)
+    def fbCount = bugCollection.BugInstance.size()
+
+    [checkstyle: csCount, findbugs: fbCount]
 }
