@@ -1,5 +1,5 @@
 import groovy.io.FileType
-@Grab('org.asciidoctor:asciidoctorj:1.5.7')
+@Grab('org.asciidoctor:asciidoctorj:1.5.8.1')
 import org.asciidoctor.Asciidoctor
 import org.asciidoctor.SafeMode
 import org.asciidoctor.log.LogRecord
