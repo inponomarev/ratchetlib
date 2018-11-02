@@ -1,3 +1,6 @@
+@Grab('org.jruby:jruby:9.1.17.0')
+import org.jruby.Ruby
+
 import groovy.io.FileType
 @Grab('org.asciidoctor:asciidoctorj:1.5.8.1')
 import org.asciidoctor.Asciidoctor
@@ -8,8 +11,6 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.utils.IOUtils
-
-import org.jruby.Ruby
 
 import static org.asciidoctor.OptionsBuilder.options
 void call(inputFile) {
