@@ -9,8 +9,13 @@ import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.utils.IOUtils
 
+import org.jruby.Ruby
+
 import static org.asciidoctor.OptionsBuilder.options
-def call(String inputFile) {
+void call(inputFile) {
+
+    echo Ruby.globalRuntime.evalScriptlet("JRUBY_VERSION")
+
     File input = new File(inputFile)
     File output = new File(input.getParent(), "index.html")
     def options = options()
@@ -24,10 +29,11 @@ def call(String inputFile) {
         warnings <<= "${logRecord.getMessage()}\n"
     }
     String result = asciidoctor.convertFile(input, options)
-    if (result != null || !result.isEmpty())
+    if (result != null)
         warnings <<= "${result}\n"
 
     if (warnings.length() > 0) {
+        //println warnings
         echo warnings
         error "AsciiDoctor build failed, see messages above."
     } else {
