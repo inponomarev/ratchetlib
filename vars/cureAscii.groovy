@@ -14,7 +14,7 @@ import org.jruby.Ruby
 import static org.asciidoctor.OptionsBuilder.options
 void call(inputFile) {
 
-    echo Ruby.globalRuntime.evalScriptlet("JRUBY_VERSION")
+    echo Ruby.globalRuntime.evalScriptlet("JRUBY_VERSION").toString()
 
     File input = new File(inputFile)
     File output = new File(input.getParent(), "index.html")
