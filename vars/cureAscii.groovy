@@ -1,20 +1,27 @@
+@Grapes([
+        @Grab('org.jruby:jruby-complete:9.1.17.0'),
+        @Grab('org.asciidoctor:asciidoctorj:1.5.6'),
+        @Grab('org.apache.commons:commons-compress:1.18'),
+        @GrabConfig(systemClassLoader = true)
+])
+
 import groovy.io.FileType
-@Grab('org.asciidoctor:asciidoctorj:1.5.6')
 import org.asciidoctor.Asciidoctor
 import org.asciidoctor.SafeMode
-//import org.asciidoctor.log.LogRecord
-@Grab('org.apache.commons:commons-compress:1.18')
+
+import org.asciidoctor.log.LogRecord
 import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream
 import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream
 import org.apache.commons.compress.archivers.tar.TarArchiveEntry
 import org.apache.commons.compress.utils.IOUtils
-import org.jruby.Ruby
+
+//import org.jruby.Ruby
 
 import static org.asciidoctor.OptionsBuilder.options
 
 void call(inputFile) {
 
-    echo Ruby.globalRuntime.evalScriptlet("JRUBY_VERSION").toString()
+//    echo Ruby.globalRuntime.evalScriptlet("JRUBY_VERSION").toString()
 
     File input = new File(inputFile)
     File output = new File(input.getParent(), "index.html")
@@ -25,11 +32,11 @@ void call(inputFile) {
             .asMap()
     def warnings = ''
     def asciidoctor = Asciidoctor.Factory.create()
-    /*
+
     asciidoctor.registerLogHandler { LogRecord logRecord ->
         warnings <<= "${logRecord.getMessage()}\n"
     }
-    */
+
     String result = asciidoctor.convertFile(input, options)
     if (result != null)
         warnings <<= "${result}\n"
