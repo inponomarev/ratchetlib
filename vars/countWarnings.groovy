@@ -26,7 +26,7 @@ private Map countModule(prefix) {
 
     f = new File("${prefix}/target/eslint.xml")
     if (f.exists()) {
-        def eslint = new XmlSlurper().parseText(text)
+        def eslint = new XmlSlurper().parseText(f.text)
         count.put("eslint", eslint.file.error.size())
     }
 
