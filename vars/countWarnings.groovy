@@ -11,13 +11,24 @@ def call(modules = []) {
 }
 
 private Map countModule(prefix) {
-    def text = new File("${prefix}/target/checkstyle-result.xml").text
-    def checkstyle = new XmlSlurper().parseText(text)
-    def csCount = checkstyle.file.error.size()
-
-    text = new File("${prefix}/target/spotbugsXml.xml").text
-    def bugCollection = new XmlSlurper().parseText(text)
-    def fbCount = bugCollection.BugInstance.size()
-
-    [checkstyle: csCount, findbugs: fbCount]
+    def count = [:]
+    new File("${prefix}/target/checkstyle-result.xml").with {
+        if (exists()) {
+            def checkstyle = new XmlSlurper().parseText(text)
+            count.put("checkstyle", checkstyle.file.error.size())
+        }
+    }
+    new File("${prefix}/target/spotbugsXml.xml").with {
+        if (exists()) {
+            def bugCollection = new XmlSlurper().parseText(text)
+            count.put("findbugs", bugCollection.BugInstance.size())
+        }
+    }
+    new File("${prefix}/target/eslint.xml").with {
+        if (exists()) {
+            def eslint = new XmlSlurper().parseText(text)
+            count.put("eslint", eslint.file.error.size())
+        }
+    }
+    count
 }
